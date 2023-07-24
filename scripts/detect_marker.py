@@ -13,17 +13,21 @@ MARKER_POS = {0: (1, 0), 1: (3, 0), 2: (0, 1), 3: (2, 1), 4: (4, 1),
               5: (1, 2), 6: (3, 2), 7: (0, 3), 8: (2, 3), 9: (4, 3),
               10:(1, 4), 11:(3, 4), 12:(0, 5), 13:(2, 5), 14:(4, 5),
               15:(1, 6), 16:(3, 6)}
+OFFSET_X = 0.046
+OFFSET_Y = 0.049
+CHESSBOARD_GRID_SIZE = 0.073
+MARKER_SIZE = 0.0365
 
 def make_world_dict():
     world_dict = {}
     select_id = [i for i in range(0, 17)]
     for i in select_id:
         grid_x, grid_y = MARKER_POS[int(i)]
-        gap = (0.073 - 0.0365)/2
-        world_dict[i] = np.array([[-(0.046+0.073*grid_x+gap), 0.049+0.073*grid_y+gap, 0],
-                         [-(0.046+0.073*(grid_x+1)-gap), 0.049+0.073*grid_y+gap, 0],
-                         [-(0.046+0.073*(grid_x+1)-gap), 0.049+0.073*(grid_y+1)-gap, 0],
-                         [-(0.046+0.073*grid_x+gap), 0.049+0.073*(grid_y+1)-gap, 0]])
+        gap = (CHESSBOARD_GRID_SIZE - MARKER_SIZE)/2
+        world_dict[i] = np.array([[-(OFFSET_X+CHESSBOARD_GRID_SIZE*grid_x+gap), OFFSET_Y+CHESSBOARD_GRID_SIZE*grid_y+gap, 0],
+                         [-(OFFSET_X+CHESSBOARD_GRID_SIZE*(grid_x+1)-gap), OFFSET_Y+CHESSBOARD_GRID_SIZE*grid_y+gap, 0],
+                         [-(OFFSET_X+CHESSBOARD_GRID_SIZE*(grid_x+1)-gap), OFFSET_Y+CHESSBOARD_GRID_SIZE*(grid_y+1)-gap, 0],
+                         [-(OFFSET_X+CHESSBOARD_GRID_SIZE*grid_x+gap), OFFSET_Y+CHESSBOARD_GRID_SIZE*(grid_y+1)-gap, 0]])
     return world_dict    
 
 def make_marker_corner_pair(select_id):
@@ -107,7 +111,7 @@ if __name__ == "__main__":
     disCoeffs = np.array([0.1264535476209261, -0.3306752898091085, -0.005525292384111444, 0.002419558666654123, 0.2048257682338653])
     # disCoeffs = np.array([0,0,0,0,0])
     # disCoeffs = np.array([0.001437615422873237, 1.205471638347009, 0.003048331467332916, -0.004405354179166393, -5.354337940304715])
-    markerLength = 0.0365
+    markerLength = MARKER_SIZE
     
     
     img = cv2.imread(os.path.join(img_root, img_name))
